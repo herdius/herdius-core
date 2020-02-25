@@ -18,6 +18,7 @@ tezosrpc = "http://172.105.158.208:9000"
 checkerbtcurl = "https://blockchain.info/latestblock"
 ltcrpc = "https://block.io/api/v2"
 bnbrpc = "https://testnet-dex.binance.org/api/v1/account"
+balanceapi = "http://ec2-54-193-67-5.us-west-1.compute.amazonaws.com/balance/"
 
 [staging]
 selfbroadcastip = "10.0.1.159"

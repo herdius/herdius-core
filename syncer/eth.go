@@ -2,13 +2,16 @@ package sync
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"io/ioutil"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/herdius/herdius-core/p2p/log"
 	"github.com/herdius/herdius-core/symbol"
+	"github.com/spf13/viper"
 	"github.com/tendermint/go-amino"
 )
 
@@ -65,14 +68,15 @@ func (es *EthSyncer) GetExtBalance() error {
 			es.syncer.addressError[ea.Address] = true
 			continue
 		}
-		ctx, cancel := context.WithTimeout(context.Background(), rpcTimeout)
-		defer cancel()
-		balance, err = client.BalanceAt(ctx, account, latestBlockNumber)
+
+		// Get balance
+		balance, err = es.getBalance(ea.Address)
 		if err != nil {
 			log.Error().Msgf("Error getting ETH Balance from RPC: %v", err)
 			es.syncer.addressError[ea.Address] = true
 			continue
 		}
+
 		es.syncer.ExtBalance[ea.Address] = balance
 		es.syncer.BlockHeight[ea.Address] = latestBlockNumber
 		es.syncer.Nonce[ea.Address] = nonce
@@ -112,4 +116,29 @@ func (es *EthSyncer) getNonce(client *ethclient.Client, account common.Address, 
 		return 0, err
 	}
 	return nonce, nil
+}
+
+func (es *EthSyncer) getBalance(address string) (*big.Int, error) {
+	httpClient := newHTTPClient()
+	balanceurl := viper.GetString("dev.balanceapi") + address
+	resp, err := httpClient.Get(balanceurl)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	type AddressBalance struct {
+		Status  bool     `json:"status"`
+		Message string   `json:"message"`
+		Data    *big.Int `json:"data"`
+	}
+
+	bodyBytes, _ := ioutil.ReadAll(resp.Body)
+	balanceInfo := new(AddressBalance)
+	json.Unmarshal(bodyBytes, balanceInfo)
+
+	if !balanceInfo.Status {
+		return nil, err
+	}
+	return balanceInfo.Data, nil
 }
