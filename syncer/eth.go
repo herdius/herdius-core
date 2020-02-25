@@ -9,9 +9,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/herdius/herdius-core/config"
 	"github.com/herdius/herdius-core/p2p/log"
 	"github.com/herdius/herdius-core/symbol"
-	"github.com/spf13/viper"
 	"github.com/tendermint/go-amino"
 )
 
@@ -120,8 +120,10 @@ func (es *EthSyncer) getNonce(client *ethclient.Client, account common.Address, 
 
 func (es *EthSyncer) getBalance(address string) (*big.Int, error) {
 	httpClient := newHTTPClient()
-	balanceurl := viper.GetString("dev.balanceapi") + address
+	config := config.GetConfiguration("dev")
+	balanceurl := config.EthRPCURL + address
 	resp, err := httpClient.Get(balanceurl)
+
 	if err != nil {
 		return nil, err
 	}

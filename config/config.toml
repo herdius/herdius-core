@@ -9,7 +9,7 @@ blockdbpath = "./herdius/blockdb"
 badgerdb = "badger"
 leveldb = "goleveldb"
 nodekeydir = "./supervisor/testdata/"
-ethrpc = "https://ropsten.infura.io/v3/"
+ethrpc = "http://ec2-54-193-67-5.us-west-1.compute.amazonaws.com/balance/"
 blockchaininforpc = "https://blockchain.info/rawaddr/"
 hercontractaddress = "0x7562157d0bbb6d78935133bf06ae279e707aa9ad"
 s3backupbucket = "herdius-blockchain-backup-dev"
@@ -18,7 +18,7 @@ tezosrpc = "http://172.105.158.208:9000"
 checkerbtcurl = "https://blockchain.info/latestblock"
 ltcrpc = "https://block.io/api/v2"
 bnbrpc = "https://testnet-dex.binance.org/api/v1/account"
-balanceapi = "http://ec2-54-193-67-5.us-west-1.compute.amazonaws.com/balance/"
+
 
 [staging]
 selfbroadcastip = "10.0.1.159"
