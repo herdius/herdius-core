@@ -36,7 +36,7 @@ func (ts *TezosSyncer) GetExtBalance() error {
 		// TODO: remove empty argument when go-tezos fixes it.
 		gt, err := goTezos.NewGoTezos(ts.RPC)
 		if err != nil {
-			log.Error().Msgf("Error connecting XTZ RPC: %v", err)
+			//log.Error().Msgf("Error connecting XTZ RPC: %v", err)
 			ts.syncer.addressError[ta.Address] = true
 			continue
 		}

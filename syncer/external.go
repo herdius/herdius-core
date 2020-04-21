@@ -100,7 +100,7 @@ func (es *ExternalSyncer) update(address string) {
 					last = last.UpdateAccount(es.Account)
 					es.Storage.Set(es.Account.Address, last)
 				}
-				log.Debug().Msgf("New account balance after external balance debit: %v\n", last)
+				//log.Debug().Msgf("New account balance after external balance debit: %v\n", last)
 			}
 
 			return

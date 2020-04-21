@@ -8,9 +8,11 @@ const (
 	DAI = "DAI"
 	LTC = "LTC"
 	BNB = "BNB"
+	EOS = "EOS"
 
 	HBTC = "HBTC"
 	HXTZ = "HXTZ"
 	HLTC = "HLTC"
 	HBNB = "HBNB"
+	HEOS = "HEOS"
 )

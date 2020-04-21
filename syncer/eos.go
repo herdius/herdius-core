@@ -10,30 +10,25 @@ import (
 	"github.com/herdius/herdius-core/symbol"
 )
 
-// BNBSyncer syncs all BNB external accounts
-type BNBSyncer struct {
+// EOSSyncer syncs all EOS external accounts
+type EOSSyncer struct {
 	RPC    string
 	syncer *ExternalSyncer
 }
 
-func newBNBSyncer() *BNBSyncer {
-	t := &BNBSyncer{}
-	t.syncer = newExternalSyncer(symbol.BNB)
+func newEOSSyncer() *EOSSyncer {
+	t := &EOSSyncer{}
+	t.syncer = newExternalSyncer(symbol.EOS)
 
 	return t
 }
 
-type Balance struct {
-	Free   string
-	Symbol string
-}
-
-type bnbBalance struct {
+type eosBalance struct {
 	Balances []Balance
 }
 
-// GetExtBalance syncs bnb account.
-func (bs *BNBSyncer) GetExtBalance() error {
+// GetExtBalance syncs eos account.
+func (bs *EOSSyncer) GetExtBalance() error {
 	bsAccount, ok := bs.syncer.Account.EBalances[bs.syncer.assetSymbol]
 	if !ok {
 		return errors.New("BTC account does not exists")
@@ -49,13 +44,13 @@ func (bs *BNBSyncer) GetExtBalance() error {
 			continue
 		}
 
-		balanceResp := &bnbBalance{}
+		balanceResp := &eosBalance{}
 		if err := json.NewDecoder(resp.Body).Decode(balanceResp); err != nil {
 			log.Error().Err(err).Msg("failed to decode response body")
 		}
 
 		for _, b := range balanceResp.Balances {
-			if b.Symbol == "BNB" {
+			if b.Symbol == "EOS" {
 				balance, err := strconv.ParseFloat(b.Free, 64)
 				if err == nil {
 					bs.syncer.addressError[ba.Address] = false
@@ -71,12 +66,11 @@ func (bs *BNBSyncer) GetExtBalance() error {
 
 // Update updates accounts in cache as and when external balances
 // external chains are updated.
-func (bs *BNBSyncer) Update() {
-	for _, bnbAccount := range bs.syncer.Account.EBalances[bs.syncer.assetSymbol] {
-		if bs.syncer.addressError[bnbAccount.Address] {
-			//log.Warn().Msgf("BNB account info is not available at this moment, skip sync: %s", bnbAccount.Address)
+func (bs *EOSSyncer) Update() {
+	for _, eosAccount := range bs.syncer.Account.EBalances[bs.syncer.assetSymbol] {
+		if bs.syncer.addressError[eosAccount.Address] {
 			continue
 		}
-		bs.syncer.update(bnbAccount.Address)
+		bs.syncer.update(eosAccount.Address)
 	}
 }

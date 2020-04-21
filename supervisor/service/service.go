@@ -470,7 +470,7 @@ func updateStateWithNewExternalBalance(stateTrie statedb.Trie) statedb.Trie {
 				IsFirstEntry := item.IsFirstEntry[storageKey]
 				IsNewAmountUpdate := item.IsNewAmountUpdate[storageKey]
 				if IsNewAmountUpdate && !IsFirstEntry {
-					log.Printf("Account from cache to be persisted to state: %v", account)
+					//log.Printf("Account from cache to be persisted to state: %v", account)
 					sactbz, err := cdc.MarshalJSON(account)
 					if err != nil {
 						plog.Error().Msgf("Failed to Marshal sender's account: %v", err)
@@ -481,7 +481,7 @@ func updateStateWithNewExternalBalance(stateTrie statedb.Trie) statedb.Trie {
 					accountStorage.Set(address, accountInAccountCache)
 				}
 				if IsFirstEntry {
-					log.Println("Account from cache to be persisted to state first time: ", account)
+					//log.Println("Account from cache to be persisted to state first time: ", account)
 					sactbz, err := cdc.MarshalJSON(account)
 					if err != nil {
 						plog.Error().Msgf("Failed to Marshal sender's account: %v", err)
@@ -499,7 +499,7 @@ func updateStateWithNewExternalBalance(stateTrie statedb.Trie) statedb.Trie {
 			IsFirstEntry := item.IsFirstHEREntry
 			IsNewAmountUpdate := item.IsNewHERAmountUpdate
 			if IsNewAmountUpdate && !IsFirstEntry {
-				log.Printf("Account from cache to be persisted to state: %v", account)
+				//log.Printf("Account from cache to be persisted to state: %v", account)
 				sactbz, err := cdc.MarshalJSON(account)
 				if err != nil {
 					plog.Error().Msgf("Failed to Marshal sender's account: %v", err)
@@ -510,7 +510,7 @@ func updateStateWithNewExternalBalance(stateTrie statedb.Trie) statedb.Trie {
 				accountStorage.Set(address, accountInAccountCache)
 			}
 			if IsFirstEntry {
-				log.Println("Account from cache to be persisted to state first time: ", account)
+				//log.Println("Account from cache to be persisted to state first time: ", account)
 				sactbz, err := cdc.MarshalJSON(account)
 				if err != nil {
 					plog.Error().Msgf("Failed to Marshal sender's account: %v", err)

@@ -51,7 +51,7 @@ func (ls *LTCSyncer) GetExtBalance() error {
 		}
 		resp, err := httpClient.Get(url)
 		if err != nil {
-			log.Error().Err(err).Msg("Error connecting lite coin network")
+			//log.Error().Err(err).Msg("Error connecting lite coin network")
 			continue
 		}
 

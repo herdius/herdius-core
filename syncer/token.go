@@ -114,7 +114,7 @@ func (her *HERToken) Update() {
 				last = last.UpdateIsNewHERAmountUpdate(true)
 				last = last.UpdateIsFirstHER(false)
 
-				log.Debug().Msgf("New account balance after external balance debit: %v\n", last)
+				//log.Debug().Msgf("New account balance after external balance debit: %v\n", last)
 				her.Storage.Set(her.Account.Address, last)
 				return
 			}
